@@ -1,0 +1,21 @@
+{
+  "name": "AIオンラインスクール - 主婦のためのAI活用術",
+  "short_name": "AIスクール",
+  "description": "9章91本の動画で基礎から応用まで学べるAI学習プラットフォーム",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#fef7f0",
+  "theme_color": "#ff7b9a",
+  "icons": [
+    {
+      "src": "assets/icons/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icons/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}
