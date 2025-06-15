@@ -8,11 +8,6 @@
     <!-- CSS ファイルの読み込み -->
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/components.css">
-    <link rel="stylesheet" href="styles/animations.css">
-    
-    <!-- プリロード設定 -->
-    <link rel="preload" href="scripts/main.js" as="script">
-    <link rel="preload" href="scripts/storage.js" as="script">
     
     <!-- PWA設定 -->
     <link rel="manifest" href="manifest.json">
@@ -21,11 +16,6 @@
     <!-- Open Graph設定 -->
     <meta property="og:title" content="AIオンラインスクール - 主婦のためのAI活用術">
     <meta property="og:description" content="9章91本の動画で基礎から応用まで。あなたのペースで学べるAIスクール">
-    <meta property="og:image" content="assets/images/og-image.jpg">
-    
-    <!-- アイコン設定 -->
-    <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32x32.png">
 </head>
 <body>
     <!-- ローディング画面 -->
@@ -146,306 +136,75 @@
                     <h4>レッスン一覧</h4>
                     <p>全ての動画を見る</p>
                 </div>
-                <div class="action-card" onclick="App.continueLesson()" data-animate="slide-right">
+                <div class="action-card" onclick="showBasicDemo()" data-animate="slide-right">
                     <div class="action-icon">▶️</div>
-                    <h4>続きから</h4>
-                    <p>前回の続きを学習</p>
+                    <h4>デモを見る</h4>
+                    <p>まずは動作確認</p>
                 </div>
             </div>
         </div>
 
-        <!-- レッスン一覧ページ -->
+        <!-- 簡易レッスンページ -->
         <div id="lessons" class="page">
             <div class="page-header">
                 <button class="back-btn" onclick="App.showPage('home')">
                     <span class="back-icon">←</span>
                 </button>
                 <h2 class="page-title">レッスン一覧</h2>
-                <div class="header-actions">
-                    <button class="search-toggle" onclick="UI.toggleSearch()">🔍</button>
-                </div>
             </div>
 
-            <!-- 検索機能 -->
-            <div class="search-container" id="lesson-search">
-                <div class="search-box">
-                    <input type="text" class="search-input" placeholder="レッスンを検索..." 
-                           id="lesson-search-input" oninput="LessonManager.searchLessons()">
-                    <button class="search-clear" onclick="LessonManager.clearSearch()">×</button>
-                </div>
-            </div>
-
-            <!-- フィルタータブ -->
-            <div class="filter-tabs">
-                <button class="tab active" data-filter="all" onclick="LessonManager.filterLessons('all')">
-                    すべて
+            <div class="card">
+                <h3>🎯 準備中のコンテンツ</h3>
+                <p>現在、以下のレッスンを準備中です：</p>
+                <ul style="margin: 1rem 0; padding-left: 2rem;">
+                    <li>第1章：オリエンテーション（5本）</li>
+                    <li>第2章：AI基礎知識（8本）</li>
+                    <li>第3章：AI活用実践（12本）</li>
+                    <li>第4章：セキュリティ（6本）</li>
+                    <li>第5章：プロンプト基礎（10本）</li>
+                </ul>
+                <button class="btn btn-primary" onclick="alert('準備中です。しばらくお待ちください！')">
+                    サンプルレッスンを見る
                 </button>
-                <button class="tab" data-filter="incomplete" onclick="LessonManager.filterLessons('incomplete')">
-                    未視聴 <span class="filter-count" id="incomplete-count">59</span>
-                </button>
-                <button class="tab" data-filter="complete" onclick="LessonManager.filterLessons('complete')">
-                    視聴済み <span class="filter-count" id="complete-count">32</span>
-                </button>
-            </div>
-
-            <!-- レッスンリスト -->
-            <div class="lessons-container" id="lessons-container">
-                <!-- Chapter 1 -->
-                <div class="chapter-accordion" data-chapter="1">
-                    <div class="chapter-header" onclick="UI.toggleChapter(1)">
-                        <div class="chapter-info">
-                            <h3 class="chapter-title">第1章 オリエンテーション</h3>
-                            <div class="chapter-progress">
-                                <span class="progress-text">3/5本完了</span>
-                                <div class="mini-progress-bar">
-                                    <div class="mini-progress-fill" style="width: 60%"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="chapter-toggle">
-                            <span class="chapter-arrow" id="chapter1-arrow">▼</span>
-                        </div>
-                    </div>
-                    <div class="chapter-content active" id="chapter1-content">
-                        <div class="lesson-item completed" data-lesson="1-1" onclick="App.showLesson('1-1')">
-                            <div class="lesson-status">
-                                <span class="status-icon">✅</span>
-                            </div>
-                            <div class="lesson-info">
-                                <h4 class="lesson-title">1-1 ようこそAIスクールへ</h4>
-                                <div class="lesson-meta">
-                                    <span class="lesson-duration">5分</span>
-                                    <span class="lesson-difficulty">初級</span>
-                                </div>
-                            </div>
-                            <div class="lesson-actions">
-                                <button class="play-btn" onclick="event.stopPropagation(); App.showLesson('1-1')">
-                                    ▶️
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="lesson-item completed" data-lesson="1-2" onclick="App.showLesson('1-2')">
-                            <div class="lesson-status">
-                                <span class="status-icon">✅</span>
-                            </div>
-                            <div class="lesson-info">
-                                <h4 class="lesson-title">1-2 学習の進め方</h4>
-                                <div class="lesson-meta">
-                                    <span class="lesson-duration">8分</span>
-                                    <span class="lesson-difficulty">初級</span>
-                                </div>
-                            </div>
-                            <div class="lesson-actions">
-                                <button class="play-btn" onclick="event.stopPropagation(); App.showLesson('1-2')">
-                                    ▶️
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="lesson-item current" data-lesson="1-4" onclick="App.showLesson('1-4')">
-                            <div class="lesson-status">
-                                <span class="status-icon current-icon">📍</span>
-                            </div>
-                            <div class="lesson-info">
-                                <h4 class="lesson-title">1-4 実践前の準備</h4>
-                                <div class="lesson-meta">
-                                    <span class="lesson-duration">7分</span>
-                                    <span class="lesson-difficulty">初級</span>
-                                    <span class="next-lesson">← 次はココ!</span>
-                                </div>
-                            </div>
-                            <div class="lesson-actions">
-                                <button class="play-btn primary" onclick="event.stopPropagation(); App.showLesson('1-4')">
-                                    ▶️
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="lesson-item" data-lesson="1-5" onclick="App.showLesson('1-5')">
-                            <div class="lesson-status">
-                                <span class="status-icon">⚪</span>
-                            </div>
-                            <div class="lesson-info">
-                                <h4 class="lesson-title">1-5 質問の仕方</h4>
-                                <div class="lesson-meta">
-                                    <span class="lesson-duration">6分</span>
-                                    <span class="lesson-difficulty">初級</span>
-                                </div>
-                            </div>
-                            <div class="lesson-actions">
-                                <button class="play-btn" onclick="event.stopPropagation(); App.showLesson('1-5')">
-                                    ▶️
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Chapter 2 -->
-                <div class="chapter-accordion" data-chapter="2">
-                    <div class="chapter-header" onclick="UI.toggleChapter(2)">
-                        <div class="chapter-info">
-                            <h3 class="chapter-title">第2章 AI基礎知識</h3>
-                            <div class="chapter-progress">
-                                <span class="progress-text">2/8本完了</span>
-                                <div class="mini-progress-bar">
-                                    <div class="mini-progress-fill" style="width: 25%"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="chapter-toggle">
-                            <span class="chapter-arrow" id="chapter2-arrow">▶</span>
-                        </div>
-                    </div>
-                    <div class="chapter-content" id="chapter2-content">
-                        <!-- レッスン項目は省略 -->
-                    </div>
-                </div>
             </div>
         </div>
 
-        <!-- レッスン詳細ページ -->
-        <div id="lesson-detail" class="page">
+        <!-- 進捗ページ -->
+        <div id="progress" class="page">
             <div class="page-header">
-                <button class="back-btn" onclick="App.showPage('lessons')">
+                <button class="back-btn" onclick="App.showPage('home')">
                     <span class="back-icon">←</span>
                 </button>
-                <div class="lesson-header-info">
-                    <h2 class="lesson-title" id="current-lesson-title">1-4 実践前の準備</h2>
-                    <div class="lesson-progress-info">
-                        <span id="lesson-progress-text">進捗 32/91</span>
-                    </div>
-                </div>
-                <div class="header-actions">
-                    <button class="bookmark-btn" onclick="LessonManager.toggleBookmark()">
-                        <span id="bookmark-icon">🤍</span>
-                    </button>
-                </div>
+                <h2 class="page-title">学習進捗</h2>
             </div>
 
-            <!-- 動画プレーヤー -->
-            <div class="video-section">
-                <div class="video-container">
-                    <div class="video-placeholder" id="video-player">
-                        <div class="video-play-button" onclick="VideoPlayer.play()">
-                            <span class="play-icon">▶️</span>
-                        </div>
-                        <div class="video-info">
-                            <p>🎥 YouTube動画プレーヤー</p>
-                            <small>実際の実装ではYouTube埋め込み</small>
-                        </div>
+            <div class="card progress-overview-card text-center">
+                <div class="progress-circle-container">
+                    <svg class="progress-circle" viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="45" class="progress-bg"></circle>
+                        <circle cx="50" cy="50" r="45" class="progress-bar"></circle>
+                    </svg>
+                    <div class="progress-center">
+                        <span class="progress-percentage">35%</span>
+                        <span class="progress-label">完了</span>
                     </div>
                 </div>
-                <div class="video-controls">
-                    <button class="control-btn" onclick="VideoPlayer.toggleSpeed()">
-                        <span id="speed-indicator">1.0x</span>
-                    </button>
-                    <button class="control-btn" onclick="VideoPlayer.toggleSubtitles()">
-                        字幕
-                    </button>
-                    <button class="control-btn" onclick="VideoPlayer.toggleFullscreen()">
-                        全画面
-                    </button>
-                </div>
+                <h3>全体の進捗</h3>
+                <p>32/91本完了</p>
+                <p style="font-size: 0.9rem; opacity: 0.8;">学習開始から5日経過</p>
             </div>
 
-            <!-- レッスン情報 -->
-            <div class="lesson-info-card card">
-                <div class="card-header">
-                    <h3>📋 このレッスンで学ぶこと</h3>
-                </div>
-                <div class="card-content">
-                    <div class="info-grid">
-                        <div class="info-item">
-                            <span class="info-label">学習目標</span>
-                            <span class="info-value">AI活用の準備ができるようになる</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-label">所要時間</span>
-                            <span class="info-value">約7分</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-label">前提知識</span>
-                            <span class="info-value">1-1〜1-3の内容</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-label">難易度</span>
-                            <span class="info-value difficulty-beginner">初級</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- アクションボタン -->
-            <div class="lesson-actions-section">
-                <button class="btn btn-success btn-large" onclick="LessonManager.markComplete()" id="complete-btn">
-                    <span class="btn-icon">✅</span>
-                    視聴完了にする
-                </button>
-                <div class="secondary-actions">
-                    <button class="btn btn-outline" onclick="UI.toggleNotes()">
-                        <span class="btn-icon">📝</span>
-                        メモを取る
-                    </button>
-                    <button class="btn btn-outline" onclick="App.showPage('progress')">
-                        <span class="btn-icon">📊</span>
-                        進捗を確認
-                    </button>
-                </div>
-            </div>
-
-            <!-- メモセクション -->
-            <div class="notes-section card" id="notes-section">
-                <div class="card-header">
-                    <h3>💭 メモ</h3>
-                    <button class="notes-close" onclick="UI.toggleNotes()">×</button>
-                </div>
-                <div class="card-content">
-                    <textarea id="lesson-memo" 
-                              class="notes-textarea" 
-                              placeholder="学んだことや気づいたことをメモしてください..."></textarea>
-                    <div class="notes-actions">
-                        <button class="btn btn-outline btn-small" onclick="NotesManager.save()">保存</button>
-                        <button class="btn btn-ghost btn-small" onclick="NotesManager.clear()">クリア</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ナビゲーション -->
-            <div class="lesson-navigation">
-                <button class="nav-btn prev-btn" onclick="App.prevLesson()" id="prev-lesson-btn">
-                    <span class="nav-icon">←</span>
-                    <div class="nav-content">
-                        <span class="nav-label">前のレッスン</span>
-                        <span class="nav-title">1-3 AI基礎用語集</span>
-                    </div>
-                </button>
-                <button class="nav-btn next-btn" onclick="App.nextLesson()" id="next-lesson-btn">
-                    <div class="nav-content">
-                        <span class="nav-label">次のレッスン</span>
-                        <span class="nav-title">1-5 質問の仕方</span>
-                    </div>
-                    <span class="nav-icon">→</span>
-                </button>
-            </div>
-
-            <!-- サポートセクション -->
-            <div class="support-section card">
-                <div class="card-content text-center">
-                    <div class="support-icon">💬</div>
-                    <h4>困った時はお気軽に</h4>
-                    <p>分からないことがあれば、すぐにサポートにご相談ください</p>
-                    <button class="btn btn-secondary" onclick="App.openLineSupport()">
-                        <span class="btn-icon">📱</span>
-                        LINEで質問する
-                    </button>
-                </div>
+            <div class="card">
+                <h3 style="margin-bottom: 1rem;">🏆 実装予定機能</h3>
+                <ul style="margin-left: 1.5rem;">
+                    <li>✅ 進捗の詳細表示</li>
+                    <li>✅ 学習時間の記録</li>
+                    <li>✅ 達成バッジシステム</li>
+                    <li>✅ 学習カレンダー</li>
+                    <li>✅ 復習推奨機能</li>
+                </ul>
             </div>
         </div>
-
-        <!-- 進捗ダッシュボード、FAQ、お問い合わせページは省略 -->
-        <!-- ... 他のページも同様の構造で作成 ... -->
     </main>
 
     <!-- フッターナビゲーション -->
@@ -466,49 +225,93 @@
                 <span class="nav-label">進捗</span>
                 <div class="nav-indicator"></div>
             </a>
-            <a href="#" class="nav-item" onclick="App.showPage('faq')" data-page="faq">
+            <a href="#" class="nav-item" onclick="showInfo()" data-page="info">
                 <span class="nav-icon">❓</span>
-                <span class="nav-label">FAQ</span>
+                <span class="nav-label">情報</span>
                 <div class="nav-indicator"></div>
             </a>
         </div>
     </nav>
 
-    <!-- フローティングアクションボタン -->
-    <button class="fab" onclick="App.continueLesson()" title="続きから学習" id="continue-fab">
-        <span class="fab-icon">▶️</span>
-        <div class="fab-ripple"></div>
-    </button>
-
-    <!-- トースト通知 -->
-    <div class="toast-container" id="toast-container">
-        <!-- 動的に生成される通知 -->
-    </div>
-
-    <!-- モーダル -->
-    <div class="modal-overlay" id="modal-overlay">
-        <div class="modal-content" id="modal-content">
-            <!-- 動的にコンテンツが挿入される -->
-        </div>
-    </div>
-
-    <!-- JavaScript ファイルの読み込み -->
-    <script src="scripts/utils.js"></script>
-    <script src="scripts/storage.js"></script>
-    <script src="scripts/video-player.js"></script>
-    <script src="scripts/lesson-manager.js"></script>
-    <script src="scripts/ui-manager.js"></script>
-    <script src="scripts/main.js"></script>
-    
-    <!-- Service Worker -->
+    <!-- JavaScript - 簡単版 -->
     <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js')
-                    .then(registration => console.log('SW registered'))
-                    .catch(error => console.log('SW registration failed'));
-            });
+        // 簡単なアプリケーション
+        class SimpleApp {
+            constructor() {
+                this.currentPage = 'home';
+                this.init();
+            }
+
+            init() {
+                // ローディング画面を3秒後に非表示
+                setTimeout(() => {
+                    this.hideLoading();
+                }, 2000);
+
+                console.log('🌸 AIスクールアプリが開始されました！');
+            }
+
+            hideLoading() {
+                const loadingScreen = document.getElementById('loading-screen');
+                if (loadingScreen) {
+                    loadingScreen.style.opacity = '0';
+                    setTimeout(() => {
+                        loadingScreen.style.display = 'none';
+                    }, 500);
+                }
+            }
+
+            showPage(pageId) {
+                // 現在のページを非表示
+                document.querySelectorAll('.page').forEach(page => {
+                    page.classList.remove('active');
+                });
+
+                // 指定されたページを表示
+                const targetPage = document.getElementById(pageId);
+                if (targetPage) {
+                    targetPage.classList.add('active');
+                    this.currentPage = pageId;
+                }
+
+                // ナビゲーションの更新
+                this.updateNavigation(pageId);
+                
+                // スクロールを上部に戻す
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            updateNavigation(activePageId) {
+                document.querySelectorAll('.nav-item').forEach(item => {
+                    const pageId = item.getAttribute('data-page');
+                    if (pageId === activePageId) {
+                        item.classList.add('active');
+                    } else {
+                        item.classList.remove('active');
+                    }
+                });
+            }
         }
+
+        // グローバル関数
+        function showBasicDemo() {
+            alert('🎉 デモ機能です！\n\n実際のサイトでは：\n✅ YouTube動画の再生\n✅ 進捗の自動保存\n✅ メモ機能\n✅ 学習統計\n\nなどが利用できます！');
+        }
+
+        function showInfo() {
+            alert('ℹ️ このサイトについて\n\n主婦のためのAI学習プラットフォーム\n・91本の動画レッスン\n・進捗管理機能\n・モバイル対応\n・オフライン学習対応');
+        }
+
+        // アプリケーションの開始
+        let App;
+        document.addEventListener('DOMContentLoaded', () => {
+            App = new SimpleApp();
+        });
+
+        // エラーハンドリング
+        window.addEventListener('error', (e) => {
+            console.log('エラーが発生しましたが、基本機能は動作します:', e.message);
+        });
     </script>
 </body>
 </html>
